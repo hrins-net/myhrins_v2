@@ -78,11 +78,11 @@ class ExclusiveServices extends StatelessWidget {
           // White Container Card containing the 5 items
           Container(
             decoration: BoxDecoration(
-              color: const Color(0xFFF9FAFB), // Modern Light Grey/Blue Card Background (Option C)
+              color: Colors.white, // Pure white background to pop on the white page
               borderRadius: BorderRadius.circular(24), // Premium rounded corners matching UnifiedDashboardCard
               border: Border.all(
-                color: const Color(0xFFE5E7EB).withAlpha(120), // Subtle light border for definition
-                width: 1.2,
+                color: const Color(0xFFE5E7EB).withAlpha(100), // Subtle light border for definition
+                width: 1,
               ),
               boxShadow: [
                 BoxShadow(

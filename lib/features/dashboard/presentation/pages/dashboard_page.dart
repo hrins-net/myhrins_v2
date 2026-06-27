@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../../core/constants/app_colors.dart';
 import '../widgets/profile_header.dart';
 import '../widgets/promo_carousel.dart';
 import '../widgets/custom_bottom_nav.dart';
@@ -61,133 +60,69 @@ class _DashboardPageState extends State<DashboardPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Unified Stack containing the blue background and top cards so they scroll together naturally!
-            Stack(
-              children: [
-                // Blue Curved Header Background
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  height: 445 + MediaQuery.of(context).padding.top, // Adjusted for the shortened UnifiedDashboardCard
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Color(0xFF1E325C), // Lighter Navy
-                          AppColors.primary,  // Primary Navy Dark Blue (0xFF0F254E)
-                        ],
-                      ),
-                    ),
-                    child: Stack(
-                      children: [
-                        // Decorative circular wave shapes to emulate circular pattern in background
-                        Positioned(
-                          top: -100,
-                          right: -100,
-                          child: Container(
-                            width: 300,
-                            height: 300,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white.withAlpha(7),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: -50,
-                          left: -50,
-                          child: Container(
-                            width: 250,
-                            height: 250,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white.withAlpha(5),
-                            ),
-                          ),
-                        ),
-                        // Vector curved lines overlay (softened)
-                        CustomPaint(
-                          size: Size.infinite,
-                          painter: HeaderCurvesPainter(),
-                        ),
-                      ],
+            // Dynamic notch/status bar spacing + clean margin
+            SizedBox(height: MediaQuery.of(context).padding.top + 6),
+            
+            // Profile Header Widget (Now rendered on the clean white page background)
+            const ProfileHeader(
+              phoneNumber: '+1 (646) 555-4099',
+              activeUntil: '30 مايو 2025', // Translated active until date to Arabic
+              points: '1,000',
+              avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200',
+              isDarkBackground: false, // Switch to dark text/icons for light background compatibility
+            ),
+            
+            const SizedBox(height: 12), // Spacing between header and card
+            
+            // Unified Dashboard Card containing Quota and Quick Actions (Now an elegant indigo credit-card floating on white)
+            UnifiedDashboardCard(
+              usedGB: 22.6,
+              totalGB: 40.0,
+              onTopUpPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      'تم الضغط على شحن الرصيد',
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
-                ),
-                
-                // Top Cards sitting on the blue background
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    // Dynamic notch/status bar spacing + clean margin
-                    SizedBox(height: MediaQuery.of(context).padding.top + 6),
-                    
-                    // Profile Header Widget
-                    const ProfileHeader(
-                      phoneNumber: '+1 (646) 555-4099',
-                      activeUntil: '30 مايو 2025', // Translated active until date to Arabic
-                      points: '1,000',
-                      avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200',
+                );
+              },
+              onQuotaPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      'تم الضغط على تفاصيل سعة الإنترنت',
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    
-                    const SizedBox(height: 12), // Spacing between header and card
-                    
-                    // Unified Dashboard Card containing Quota and Quick Actions (اشحن, شراء باقات, إرسال هدية, اختبار السرعة)
-                    UnifiedDashboardCard(
-                      usedGB: 22.6,
-                      totalGB: 40.0,
-                      onTopUpPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              'تم الضغط على شحن الرصيد',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        );
-                      },
-                      onQuotaPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              'تم الضغط على تفاصيل سعة الإنترنت',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        );
-                      },
-                      onActionPressed: (index) {
-                        String actionName = '';
-                        switch (index) {
-                          case 0:
-                            actionName = 'شراء باقات';
-                            break;
-                          case 1:
-                            actionName = 'إرسال هدية';
-                            break;
-                          case 2:
-                            actionName = 'اختبار السرعة';
-                            break;
-                        }
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'تم الضغط على: $actionName',
-                              style: const TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        );
-                      },
+                  ),
+                );
+              },
+              onActionPressed: (index) {
+                String actionName = '';
+                switch (index) {
+                  case 0:
+                    actionName = 'شراء باقات';
+                    break;
+                  case 1:
+                    actionName = 'إرسال هدية';
+                    break;
+                  case 2:
+                    actionName = 'اختبار السرعة';
+                    break;
+                }
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      'تم الضغط على: $actionName',
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    
-                    const SizedBox(height: 16), // Bottom buffer spacing to clear the background
-                  ],
-                ),
-              ],
+                  ),
+                );
+              },
             ),
+            
+            const SizedBox(height: 16), // Bottom buffer spacing
             
             const SizedBox(height: 4), // Small spacing between QuickActions and PromoCarousel
             

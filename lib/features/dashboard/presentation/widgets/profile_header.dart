@@ -6,6 +6,7 @@ class ProfileHeader extends StatelessWidget {
   final String activeUntil;
   final String points;
   final String avatarUrl;
+  final bool isDarkBackground; // Support dark/light background states
 
   const ProfileHeader({
     super.key,
@@ -13,6 +14,7 @@ class ProfileHeader extends StatelessWidget {
     required this.activeUntil,
     required this.points,
     required this.avatarUrl,
+    this.isDarkBackground = true, // Defaults to dark theme to preserve backward compatibility
   });
 
   void _copyToClipboard(BuildContext context) {
@@ -41,10 +43,13 @@ class ProfileHeader extends StatelessWidget {
             height: 56,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: Colors.white.withAlpha(217), width: 2.5),
+              border: Border.all(
+                color: isDarkBackground ? Colors.white.withAlpha(217) : const Color(0xFFE5E7EB), 
+                width: 2.5,
+              ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withAlpha(51),
+                  color: Colors.black.withAlpha(isDarkBackground ? 51 : 25),
                   blurRadius: 8,
                   offset: const Offset(0, 3),
                 ),
@@ -71,8 +76,8 @@ class ProfileHeader extends StatelessWidget {
                       textDirection: TextDirection.ltr,
                       child: Text(
                         phoneNumber,
-                        style: const TextStyle(
-                          color: Colors.white,
+                        style: TextStyle(
+                          color: isDarkBackground ? Colors.white : const Color(0xFF0F254E),
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           letterSpacing: 0.5,
@@ -85,12 +90,12 @@ class ProfileHeader extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.all(4),
                         decoration: BoxDecoration(
-                          color: Colors.white.withAlpha(25),
+                          color: isDarkBackground ? Colors.white.withAlpha(25) : const Color(0xFFF3F4F6),
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.copy_rounded,
-                          color: Colors.white70,
+                          color: isDarkBackground ? Colors.white70 : const Color(0xFF6B7280),
                           size: 13,
                         ),
                       ),
@@ -105,7 +110,7 @@ class ProfileHeader extends StatelessWidget {
                     Text(
                       'نشط حتى $activeUntil',
                       style: TextStyle(
-                        color: Colors.white.withAlpha(204),
+                        color: isDarkBackground ? Colors.white.withAlpha(204) : const Color(0xFF6B7280),
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                       ),
@@ -116,7 +121,7 @@ class ProfileHeader extends StatelessWidget {
                       height: 4,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white.withAlpha(102),
+                        color: isDarkBackground ? Colors.white.withAlpha(102) : const Color(0xFFD1D5DB),
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -125,26 +130,30 @@ class ProfileHeader extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                       decoration: BoxDecoration(
-                        color: Colors.amber.withAlpha(46),
+                        color: isDarkBackground 
+                            ? Colors.amber.withAlpha(46) 
+                            : const Color(0xFFFEF3C7), // Golden soft amber background for light theme
                         borderRadius: BorderRadius.circular(100),
                         border: Border.all(
-                          color: Colors.amberAccent.withAlpha(76),
+                          color: isDarkBackground 
+                              ? Colors.amberAccent.withAlpha(76)
+                              : const Color(0xFFFCD34D),
                           width: 1,
                         ),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.stars_rounded,
-                            color: Colors.amberAccent,
+                            color: isDarkBackground ? Colors.amberAccent : const Color(0xFFD97706),
                             size: 10,
                           ),
                           const SizedBox(width: 3),
                           Text(
                             '$points نقطة',
-                            style: const TextStyle(
-                              color: Colors.amberAccent,
+                            style: TextStyle(
+                              color: isDarkBackground ? Colors.amberAccent : const Color(0xFFD97706),
                               fontSize: 10,
                               fontWeight: FontWeight.bold,
                             ),
@@ -169,16 +178,16 @@ class ProfileHeader extends StatelessWidget {
                   height: 44,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.white.withAlpha(25), // Transparent white
+                    color: isDarkBackground ? Colors.white.withAlpha(25) : const Color(0xFFF3F4F6), 
                     border: Border.all(
-                      color: Colors.white.withAlpha(50), // White border
+                      color: isDarkBackground ? Colors.white.withAlpha(50) : const Color(0xFFE5E7EB),
                       width: 1.5,
                     ),
                   ),
-                  child: const Center(
+                  child: Center(
                     child: Icon(
                       Icons.notifications_none_rounded,
-                      color: Colors.white,
+                      color: isDarkBackground ? Colors.white : const Color(0xFF0F254E),
                       size: 22,
                     ),
                   ),
@@ -195,7 +204,7 @@ class ProfileHeader extends StatelessWidget {
                     color: const Color(0xFFEF4444), // Crimson Red
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: const Color(0xFF1E325C), // Matches header background
+                      color: isDarkBackground ? const Color(0xFF1E325C) : Colors.white, // Border blends correctly
                       width: 2.0,
                     ),
                   ),

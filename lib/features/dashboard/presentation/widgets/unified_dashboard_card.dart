@@ -25,22 +25,29 @@ class UnifiedDashboardCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
       decoration: BoxDecoration(
-        color: const Color(0xFFF9FAFB), // Modern Light Grey/Blue Card Background (Option C)
+        gradient: const LinearGradient(
+          colors: [
+            Color(0xFF1E325C), // Lighter Navy
+            AppColors.primary,  // Primary Navy Dark Blue (0xFF0F254E)
+          ],
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+        ),
         borderRadius: BorderRadius.circular(24), // Premium rounded corners
         border: Border.all(
-          color: const Color(0xFFE5E7EB).withAlpha(120), // Subtle light border for definition
-          width: 1.2,
+          color: Colors.white.withAlpha(20), // Soft white border for a card effect
+          width: 1.5,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha(5), // Softer, more premium shadow
-            blurRadius: 16,
-            offset: const Offset(0, 8),
+            color: AppColors.primary.withAlpha(64), // Elegant shadow matching the card color
+            blurRadius: 18,
+            offset: const Offset(0, 10),
           ),
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.all(18), // Slightly larger padding for breathing room
+        padding: const EdgeInsets.all(18), // Breathable padding
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -52,7 +59,7 @@ class UnifiedDashboardCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // Quota Header (Standard LTR order in code, automatically reversed in RTL to: Globe -> Text -> Chevron)
+                  // Quota Header
                   Row(
                     children: [
                       // 1. Globe Icon (Renders on the right in RTL as the starting icon)
@@ -61,15 +68,15 @@ class UnifiedDashboardCard extends StatelessWidget {
                         height: 44,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.white, // Pure White background on Grey Card (Nested layout)
+                          color: Colors.white.withAlpha(30), // Translucent white container
                           border: Border.all(
-                            color: const Color(0xFFE5E7EB),
+                            color: Colors.white.withAlpha(38),
                             width: 1.2,
                           ),
                         ),
                         child: const Icon(
                           Icons.language_rounded,
-                          color: Color(0xFF3B82F6), // Matches theme
+                          color: Colors.white, // White icon on dark background
                           size: 20,
                         ),
                       ),
@@ -78,7 +85,7 @@ class UnifiedDashboardCard extends StatelessWidget {
                       // 2. Quota details (Renders in the middle, RTL aligned)
                       Expanded(
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start, // Aligns to right in RTL, left in LTR
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -87,7 +94,7 @@ class UnifiedDashboardCard extends StatelessWidget {
                                 Text(
                                   '${usedGB.toStringAsFixed(1)} جيجابايت',
                                   style: const TextStyle(
-                                    color: Color(0xFF0F254E), // Navy brand color
+                                    color: Colors.white, // White text on dark card
                                     fontSize: 19,
                                     fontWeight: FontWeight.w800,
                                     letterSpacing: -0.5,
@@ -95,8 +102,8 @@ class UnifiedDashboardCard extends StatelessWidget {
                                 ),
                                 Text(
                                   ' / ${totalGB.toInt()} جيجابايت',
-                                  style: const TextStyle(
-                                    color: Color(0xFF9CA3AF),
+                                  style: TextStyle(
+                                    color: Colors.white.withAlpha(153),
                                     fontSize: 11,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -104,10 +111,10 @@ class UnifiedDashboardCard extends StatelessWidget {
                               ],
                             ),
                             const SizedBox(height: 2),
-                            const Text(
+                            Text(
                               'سعة الإنترنت',
                               style: TextStyle(
-                                color: Color(0xFF9CA3AF),
+                                color: Colors.white.withAlpha(178),
                                 fontSize: 11.5,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -120,7 +127,7 @@ class UnifiedDashboardCard extends StatelessWidget {
                       // 3. Arrow (Renders on the left in RTL as the trailing indicator)
                       Icon(
                         isRtl ? Icons.chevron_left_rounded : Icons.chevron_right_rounded,
-                        color: const Color(0xFF9CA3AF),
+                        color: Colors.white70,
                         size: 22,
                       ),
                     ],
@@ -128,7 +135,7 @@ class UnifiedDashboardCard extends StatelessWidget {
                   
                   const SizedBox(height: 16),
                   
-                  // Premium Custom Gradient Progress Bar
+                  // Premium Custom Gradient Progress Bar (Orange/Gold on Navy)
                   LayoutBuilder(
                     builder: (context, constraints) {
                       final double maxWidth = constraints.maxWidth;
@@ -139,7 +146,7 @@ class UnifiedDashboardCard extends StatelessWidget {
                             height: 8,
                             width: maxWidth,
                             decoration: BoxDecoration(
-                              color: const Color(0xFFF3F4F6),
+                              color: Colors.white.withAlpha(38),
                               borderRadius: BorderRadius.circular(100),
                             ),
                           ),
@@ -150,14 +157,14 @@ class UnifiedDashboardCard extends StatelessWidget {
                             decoration: BoxDecoration(
                               gradient: const LinearGradient(
                                 colors: [
-                                  Color(0xFF3B82F6), // Vibrant Blue
-                                  AppColors.primary,  // Navy Blue
+                                  Color(0xFFF97316), // Brand Orange
+                                  Color(0xFFF59E0B), // Gold / Amber
                                 ],
                               ),
                               borderRadius: BorderRadius.circular(100),
                               boxShadow: [
                                 BoxShadow(
-                                  color: const Color(0xFF3B82F6).withAlpha(50),
+                                  color: const Color(0xFFF97316).withAlpha(102),
                                   blurRadius: 4,
                                   offset: const Offset(0, 1),
                                 ),
@@ -181,7 +188,7 @@ class UnifiedDashboardCard extends StatelessWidget {
                         value: '92Mb',
                         icon: const Icon(
                           Icons.arrow_upward_rounded,
-                          color: AppColors.secondary,
+                          color: Color(0xFFF97316),
                           size: 15,
                         ),
                       ),
@@ -191,7 +198,7 @@ class UnifiedDashboardCard extends StatelessWidget {
                         value: '90Mb',
                         icon: const Icon(
                           Icons.arrow_downward_rounded,
-                          color: AppColors.secondary,
+                          color: Color(0xFFF97316),
                           size: 15,
                         ),
                       ),
@@ -225,7 +232,6 @@ class UnifiedDashboardCard extends StatelessWidget {
                 _buildActionButton(
                   icon: Icons.add_rounded,
                   iconColor: const Color(0xFFF97316), // Brand Orange
-                  bgColor: const Color(0xFFFFF7ED),   // Soft Light Orange
                   label: 'اشحن',
                   onTap: onTopUpPressed,
                 ),
@@ -233,7 +239,6 @@ class UnifiedDashboardCard extends StatelessWidget {
                 _buildActionButton(
                   icon: Icons.shopping_bag_outlined,
                   iconColor: const Color(0xFF3B82F6), // Blue
-                  bgColor: const Color(0xFFEFF6FF),   // Soft Light Blue
                   label: 'شراء باقات',
                   onTap: () => onActionPressed(0),
                 ),
@@ -241,7 +246,6 @@ class UnifiedDashboardCard extends StatelessWidget {
                 _buildActionButton(
                   icon: Icons.card_giftcard_rounded,
                   iconColor: const Color(0xFFEC4899), // Pink/Rose
-                  bgColor: const Color(0xFFFCE7F3),   // Soft Light Pink
                   label: 'إرسال هدية',
                   onTap: () => onActionPressed(1),
                 ),
@@ -249,7 +253,6 @@ class UnifiedDashboardCard extends StatelessWidget {
                 _buildActionButton(
                   icon: Icons.speed_rounded,
                   iconColor: const Color(0xFF10B981), // Green
-                  bgColor: const Color(0xFFECFDF5),   // Soft Light Green
                   label: 'اختبار السرعة',
                   onTap: () => onActionPressed(2),
                 ),
@@ -266,7 +269,7 @@ class UnifiedDashboardCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 14),
       child: Divider(
         height: 1,
-        color: const Color(0xFFE5E7EB).withAlpha(150),
+        color: Colors.white.withAlpha(30),
       ),
     );
   }
@@ -282,8 +285,8 @@ class UnifiedDashboardCard extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(
-            color: Color(0xFF9CA3AF),
+          style: TextStyle(
+            color: Colors.white.withAlpha(153),
             fontSize: 11,
             fontWeight: FontWeight.w600,
           ),
@@ -296,7 +299,7 @@ class UnifiedDashboardCard extends StatelessWidget {
             Text(
               value,
               style: const TextStyle(
-                color: AppColors.primary,
+                color: Colors.white,
                 fontSize: 14.5,
                 fontWeight: FontWeight.bold,
               ),
@@ -314,7 +317,6 @@ class UnifiedDashboardCard extends StatelessWidget {
   Widget _buildActionButton({
     required IconData icon,
     required Color iconColor,
-    required Color bgColor,
     required String label,
     required VoidCallback onTap,
   }) {
@@ -331,11 +333,14 @@ class UnifiedDashboardCard extends StatelessWidget {
               height: 46,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: bgColor,
-                border: Border.all(
-                  color: iconColor.withAlpha(38),
-                  width: 1.5,
-                ),
+                color: Colors.white, // Solid white buttons floating on the navy card
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withAlpha(38),
+                    blurRadius: 6,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
               ),
               child: Icon(
                 icon,
@@ -349,10 +354,10 @@ class UnifiedDashboardCard extends StatelessWidget {
               textAlign: TextAlign.center,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: Color(0xFF4B5563),
+              style: TextStyle(
+                color: Colors.white.withAlpha(230),
                 fontSize: 11,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w700, // Slightly bolder for better readability on navy
               ),
             ),
           ],
