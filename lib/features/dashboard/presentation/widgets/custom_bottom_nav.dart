@@ -42,9 +42,14 @@ class CustomBottomNav extends StatelessWidget {
       textDirection: TextDirection.ltr,
       child: Container(
         height: barHeight,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           color: Colors.white, // Pure white background (#FFFFFF)
-          border: null,        // Clean layout with no borders or shadows
+          border: Border(
+            top: BorderSide(
+              color: const Color(0xFFE5E7EB).withAlpha(150),
+              width: 1.0,
+            ),
+          ),
         ),
         child: Padding(
           padding: EdgeInsets.only(bottom: bottomPadding, left: 12, right: 12),

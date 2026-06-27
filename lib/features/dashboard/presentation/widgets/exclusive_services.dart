@@ -16,14 +16,28 @@ class ExclusiveServices extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Section Title "حصري لك" (Renders on the right in RTL)
-              const Text(
-                'حصري لك',
-                style: TextStyle(
-                  color: AppColors.primary,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+              // Section Title "حصري لك" with vertical accent bar (Renders on the right in RTL)
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 4,
+                    height: 16,
+                    decoration: BoxDecoration(
+                      color: AppColors.secondary, // Brand Orange Accent
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  const Text(
+                    'حصري لك',
+                    style: TextStyle(
+                      color: AppColors.primary,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
               
               // Show More text button (Renders on the left in RTL)
@@ -65,12 +79,16 @@ class ExclusiveServices extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(24), // Premium rounded corners matching UnifiedDashboardCard
+              border: Border.all(
+                color: const Color(0xFFE5E7EB).withAlpha(100), // Subtle light border for definition
+                width: 1,
+              ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withAlpha(8),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
+                  color: Colors.black.withAlpha(6), // Softer, more premium shadow
+                  blurRadius: 16,
+                  offset: const Offset(0, 8),
                 ),
               ],
             ),

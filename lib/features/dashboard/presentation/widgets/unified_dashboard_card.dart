@@ -26,116 +26,150 @@ class UnifiedDashboardCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24), // Premium rounded corners
+        border: Border.all(
+          color: const Color(0xFFE5E7EB).withAlpha(100), // Subtle light border for definition
+          width: 1,
+        ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha(8),
+            color: Colors.black.withAlpha(6), // Softer, more premium shadow
             blurRadius: 16,
-            offset: const Offset(0, 6),
+            offset: const Offset(0, 8),
           ),
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(18), // Slightly larger padding for breathing room
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // ================= SECTION 1: SUBSCRIPTION QUOTA (Now at the very top) =================
+            // ================= SECTION 1: SUBSCRIPTION QUOTA (RTL Corrected) =================
             InkWell(
               onTap: onQuotaPressed,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // Quota Header
+                  // Quota Header (Standard LTR order in code, automatically reversed in RTL to: Globe -> Text -> Chevron)
                   Row(
                     children: [
-                      // Arrow (Left side in RTL)
-                      Icon(
-                        isRtl ? Icons.chevron_left_rounded : Icons.chevron_right_rounded,
-                        color: const Color(0xFF9CA3AF),
-                        size: 22,
-                      ),
-                      
-                      const Spacer(),
-                      
-                      // Quota details (Middle in RTL)
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.baseline,
-                            textBaseline: TextBaseline.alphabetic,
-                            children: [
-                              Text(
-                                '/ ${totalGB.toInt()} جيجابايت',
-                                style: const TextStyle(
-                                  color: Color(0xFF9CA3AF),
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                ' ${usedGB.toStringAsFixed(1)} جيجابايت',
-                                style: const TextStyle(
-                                  color: Color(0xFF1F2937),
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w800,
-                                  letterSpacing: -0.5,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const Text(
-                            'سعة الإنترنت',
-                            style: TextStyle(
-                              color: Color(0xFF9CA3AF),
-                              fontSize: 11,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(width: 12),
-                      
-                      // Globe Icon (Right side in RTL)
+                      // 1. Globe Icon (Renders on the right in RTL as the starting icon)
                       Container(
-                        width: 42,
-                        height: 42,
+                        width: 44,
+                        height: 44,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: const Color(0xFFF9FAFB),
+                          color: const Color(0xFFEFF6FF), // Soft Blue Background
                           border: Border.all(
-                            color: const Color(0xFFE5E7EB),
+                            color: const Color(0xFF3B82F6).withAlpha(30),
                             width: 1.2,
                           ),
                         ),
                         child: const Icon(
                           Icons.language_rounded,
-                          color: AppColors.primary,
+                          color: Color(0xFF3B82F6), // Matches theme
                           size: 20,
                         ),
+                      ),
+                      const SizedBox(width: 12),
+                      
+                      // 2. Quota details (Renders in the middle, RTL aligned)
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start, // Aligns to right in RTL, left in LTR
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.baseline,
+                              textBaseline: TextBaseline.alphabetic,
+                              children: [
+                                Text(
+                                  '${usedGB.toStringAsFixed(1)} جيجابايت',
+                                  style: const TextStyle(
+                                    color: Color(0xFF0F254E), // Navy brand color
+                                    fontSize: 19,
+                                    fontWeight: FontWeight.w800,
+                                    letterSpacing: -0.5,
+                                  ),
+                                ),
+                                Text(
+                                  ' / ${totalGB.toInt()} جيجابايت',
+                                  style: const TextStyle(
+                                    color: Color(0xFF9CA3AF),
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 2),
+                            const Text(
+                              'سعة الإنترنت',
+                              style: TextStyle(
+                                color: Color(0xFF9CA3AF),
+                                fontSize: 11.5,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      
+                      // 3. Arrow (Renders on the left in RTL as the trailing indicator)
+                      Icon(
+                        isRtl ? Icons.chevron_left_rounded : Icons.chevron_right_rounded,
+                        color: const Color(0xFF9CA3AF),
+                        size: 22,
                       ),
                     ],
                   ),
                   
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 16),
                   
-                  // Progress Bar
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: LinearProgressIndicator(
-                      value: percentage,
-                      minHeight: 6,
-                      backgroundColor: const Color(0xFFE5E7EB),
-                      valueColor: const AlwaysStoppedAnimation<Color>(
-                        AppColors.primary,
-                      ),
-                    ),
+                  // Premium Custom Gradient Progress Bar
+                  LayoutBuilder(
+                    builder: (context, constraints) {
+                      final double maxWidth = constraints.maxWidth;
+                      return Stack(
+                        children: [
+                          // Background track
+                          Container(
+                            height: 8,
+                            width: maxWidth,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFF3F4F6),
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                          ),
+                          // Gradient Progress bar
+                          Container(
+                            height: 8,
+                            width: maxWidth * percentage,
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [
+                                  Color(0xFF3B82F6), // Vibrant Blue
+                                  AppColors.primary,  // Navy Blue
+                                ],
+                              ),
+                              borderRadius: BorderRadius.circular(100),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: const Color(0xFF3B82F6).withAlpha(50),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 1),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
                   
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 16),
                   
                   // Stats details (الرفع, التحميل, حالة الاشتراك)
                   Row(
@@ -229,7 +263,7 @@ class UnifiedDashboardCard extends StatelessWidget {
 
   Widget _buildSectionDivider() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12),
+      padding: const EdgeInsets.symmetric(vertical: 14),
       child: Divider(
         height: 1,
         color: const Color(0xFFE5E7EB).withAlpha(150),
