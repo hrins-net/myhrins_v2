@@ -55,7 +55,7 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF3F4F6), // Light grey background
+      backgroundColor: Colors.white, // Pure White Page Background (Option C)
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(

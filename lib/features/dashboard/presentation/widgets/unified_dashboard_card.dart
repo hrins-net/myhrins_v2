@@ -25,15 +25,15 @@ class UnifiedDashboardCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: const Color(0xFFF9FAFB), // Modern Light Grey/Blue Card Background (Option C)
         borderRadius: BorderRadius.circular(24), // Premium rounded corners
         border: Border.all(
-          color: const Color(0xFFE5E7EB).withAlpha(100), // Subtle light border for definition
-          width: 1,
+          color: const Color(0xFFE5E7EB).withAlpha(120), // Subtle light border for definition
+          width: 1.2,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha(6), // Softer, more premium shadow
+            color: Colors.black.withAlpha(5), // Softer, more premium shadow
             blurRadius: 16,
             offset: const Offset(0, 8),
           ),
@@ -61,9 +61,9 @@ class UnifiedDashboardCard extends StatelessWidget {
                         height: 44,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: const Color(0xFFEFF6FF), // Soft Blue Background
+                          color: Colors.white, // Pure White background on Grey Card (Nested layout)
                           border: Border.all(
-                            color: const Color(0xFF3B82F6).withAlpha(30),
+                            color: const Color(0xFFE5E7EB),
                             width: 1.2,
                           ),
                         ),
