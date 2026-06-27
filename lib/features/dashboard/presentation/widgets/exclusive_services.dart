@@ -1,0 +1,229 @@
+import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
+import '../../../../core/constants/app_colors.dart';
+
+class ExclusiveServices extends StatelessWidget {
+  const ExclusiveServices({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // Aligned to RTL direction natively
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      child: Column(
+        children: [
+          // Header Section: "حصري لك" on the right, "عرض المزيد" on the left
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Section Title "حصري لك" (Renders on the right in RTL)
+              const Text(
+                'حصري لك',
+                style: TextStyle(
+                  color: AppColors.primary,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              
+              // Show More text button (Renders on the left in RTL)
+              GestureDetector(
+                onTap: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        'جاري الانتقال إلى جميع الخدمات الحصرية...',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  );
+                },
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'عرض المزيد',
+                      style: TextStyle(
+                        color: AppColors.secondary,
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Icon(
+                      Icons.chevron_left_rounded, // Points to the left indicating drilling down
+                      color: AppColors.secondary,
+                      size: 18,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          
+          // White Container Card containing the 5 items
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withAlpha(8),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                children: [
+                  _buildServiceItem(
+                    context,
+                    title: 'ترقية سرعة الفايبر',
+                    subtitle: 'ضاعف سرعة اتصالك بخصم 30% لفترة محدودة',
+                    icon: HugeIcons.strokeRoundedFlash,
+                    onTap: () => _showServiceAlert(context, 'ترقية سرعة الفايبر'),
+                  ),
+                  _buildDivider(),
+                  _buildServiceItem(
+                    context,
+                    title: 'الرقابة الأبوية الذكية',
+                    subtitle: 'حماية أطفالك وإدارة أوقات استخدام الإنترنت بسهولة',
+                    icon: HugeIcons.strokeRoundedShield01,
+                    onTap: () => _showServiceAlert(context, 'الرقابة الأبوية الذكية'),
+                  ),
+                  _buildDivider(),
+                  _buildServiceItem(
+                    context,
+                    title: 'الدعم الفني VIP',
+                    subtitle: 'مساعدة ذات أولوية فورية من الخبراء على مدار الساعة',
+                    icon: HugeIcons.strokeRoundedCustomerService,
+                    onTap: () => _showServiceAlert(context, 'الدعم الفني VIP'),
+                  ),
+                  _buildDivider(),
+                  _buildServiceItem(
+                    context,
+                    title: 'تفعيل قنوات Shahid VIP',
+                    subtitle: 'احصل على اشتراك ترفيهي مجاني مع باقتك الحالية',
+                    icon: HugeIcons.strokeRoundedTvSmart,
+                    onTap: () => _showServiceAlert(context, 'تفعيل قنوات Shahid VIP'),
+                  ),
+                  _buildDivider(),
+                  _buildServiceItem(
+                    context,
+                    title: 'شريحة eSIM إضافية',
+                    subtitle: 'تفعيل شريحة بيانات ثانية للأجهزة اللوحية والمحمولة',
+                    icon: HugeIcons.strokeRoundedSimcard01,
+                    onTap: () => _showServiceAlert(context, 'شريحة eSIM إضافية'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildServiceItem(
+    BuildContext context, {
+    required String title,
+    required String subtitle,
+    required List<List<dynamic>> icon,
+    required VoidCallback onTap,
+  }) {
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(8),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+        child: Row(
+          children: [
+            // Circular Icon Wrapper (Renders on the right in RTL)
+            Container(
+              width: 38,
+              height: 38,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: const Color(0xFFF9FAFB),
+                border: Border.all(
+                  color: const Color(0xFFE5E7EB),
+                  width: 1.2,
+                ),
+              ),
+              child: Center(
+                child: HugeIcon(
+                  icon: icon,
+                  color: AppColors.primary,
+                  size: 18,
+                  strokeWidth: 1.6,
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            
+            // Title & Description (Expanded in the middle, aligned to start for RTL compatibility)
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start, // Align to start (Right in RTL, Left in LTR)
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      color: AppColors.primary,
+                      fontSize: 13.5,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    subtitle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: Color(0xFF6B7280),
+                      fontSize: 11.5,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 8),
+            
+            // Chevron arrow (Renders on the left in RTL, pointing left)
+            Icon(
+              isRtl ? Icons.chevron_left_rounded : Icons.chevron_right_rounded,
+              color: const Color(0xFF9CA3AF),
+              size: 20,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDivider() {
+    return const Divider(
+      height: 6,
+      thickness: 1,
+      color: Color(0xFFF3F4F6),
+      indent: 4,
+      endIndent: 4,
+    );
+  }
+
+  void _showServiceAlert(BuildContext context, String serviceName) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'تم تفعيل طلب: $serviceName بنجاح',
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+}
