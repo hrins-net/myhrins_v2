@@ -71,7 +71,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   top: 0,
                   left: 0,
                   right: 0,
-                  height: 405 + MediaQuery.of(context).padding.top, // Dynamic height matching notch depth
+                  height: 480 + MediaQuery.of(context).padding.top, // Extended height to cover QuickActionsCard
                   child: Container(
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
@@ -170,16 +170,16 @@ class _DashboardPageState extends State<DashboardPage> {
                       },
                     ),
                     
+                    const SizedBox(height: 4), // Spacing between QuotaCard and QuickActionsCard
+                    
+                    // Quick Actions Menu Card (Now inside the blue header stack)
+                    const QuickActionsCard(),
+                    
                     const SizedBox(height: 16), // Bottom buffer spacing to clear the background
                   ],
                 ),
               ],
             ),
-            
-            const SizedBox(height: 4), // Small spacing before QuickActionsCard
-            
-            // Quick Actions Menu Card
-            const QuickActionsCard(),
             
             const SizedBox(height: 4), // Small spacing between QuickActions and PromoCarousel
             
