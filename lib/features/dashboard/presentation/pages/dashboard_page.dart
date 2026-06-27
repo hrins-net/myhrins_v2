@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_colors.dart';
-import '../widgets/credit_card.dart';
 import '../widgets/profile_header.dart';
-import '../widgets/quota_card.dart';
 import '../widgets/promo_carousel.dart';
-import '../widgets/quick_actions_card.dart';
 import '../widgets/custom_bottom_nav.dart';
 import '../widgets/exclusive_services.dart';
+import '../widgets/unified_dashboard_card.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -71,7 +69,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   top: 0,
                   left: 0,
                   right: 0,
-                  height: 480 + MediaQuery.of(context).padding.top, // Extended height to cover QuickActionsCard
+                  height: 525 + MediaQuery.of(context).padding.top, // Extended to cover UnifiedDashboardCard
                   child: Container(
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
@@ -135,10 +133,12 @@ class _DashboardPageState extends State<DashboardPage> {
                       avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200',
                     ),
                     
-                    const SizedBox(height: 12), // Spacing between header and CreditCard
+                    const SizedBox(height: 12), // Spacing between header and card
                     
-                    // Credit & Top-Up Card Widget
-                    CreditCard(
+                    // Unified Dashboard Card containing Credit, Quota, and Quick Actions
+                    UnifiedDashboardCard(
+                      usedGB: 22.6,
+                      totalGB: 40.0,
                       amount: '250\$',
                       onTopUpPressed: () {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -150,15 +150,7 @@ class _DashboardPageState extends State<DashboardPage> {
                           ),
                         );
                       },
-                    ),
-                    
-                    const SizedBox(height: 4), // Spacing between CreditCard and QuotaCard
-                    
-                    // Internet Quota Card Widget
-                    QuotaCard(
-                      usedGB: 22.6,
-                      totalGB: 40.0,
-                      onTap: () {
+                      onQuotaPressed: () {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text(
@@ -168,12 +160,32 @@ class _DashboardPageState extends State<DashboardPage> {
                           ),
                         );
                       },
+                      onActionPressed: (index) {
+                        String actionName = '';
+                        switch (index) {
+                          case 0:
+                            actionName = 'شراء باقات';
+                            break;
+                          case 1:
+                            actionName = 'إرسال هدية';
+                            break;
+                          case 2:
+                            actionName = 'استرداد قسيمة';
+                            break;
+                          case 3:
+                            actionName = 'اختبار السرعة';
+                            break;
+                        }
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'تم الضغط على: $actionName',
+                              style: const TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                    
-                    const SizedBox(height: 4), // Spacing between QuotaCard and QuickActionsCard
-                    
-                    // Quick Actions Menu Card (Now inside the blue header stack)
-                    const QuickActionsCard(),
                     
                     const SizedBox(height: 16), // Bottom buffer spacing to clear the background
                   ],
