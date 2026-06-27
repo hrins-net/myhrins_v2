@@ -2,27 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ProfileHeader extends StatelessWidget {
+  final String username;
   final String phoneNumber;
-  final String activeUntil;
-  final String points;
   final String avatarUrl;
   final bool isDarkBackground; // Support dark/light background states
 
   const ProfileHeader({
     super.key,
+    required this.username,
     required this.phoneNumber,
-    required this.activeUntil,
-    required this.points,
     required this.avatarUrl,
     this.isDarkBackground = true, // Defaults to dark theme to preserve backward compatibility
   });
 
   void _copyToClipboard(BuildContext context) {
-    Clipboard.setData(ClipboardData(text: phoneNumber));
+    Clipboard.setData(ClipboardData(text: username));
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text(
-          'تم نسخ رقم الهاتف إلى الحافظة',
+          'تم نسخ اسم المستخدم إلى الحافظة',
           style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.bold),
         ),
         duration: Duration(seconds: 2),
@@ -68,29 +66,28 @@ class ProfileHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
+                // 1. Welcome Message as main title (replaces old phone number position)
                 Text(
                   'أهلاً بك، أحمد 👋',
                   style: TextStyle(
-                    color: isDarkBackground ? Colors.white.withAlpha(204) : const Color(0xFF6B7280),
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
+                    color: isDarkBackground ? Colors.white : const Color(0xFF0F254E),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: -0.2,
                   ),
                 ),
                 const SizedBox(height: 3),
+                
+                // 2. Username / ID row (with copy button)
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // Ensure the phone number reads correctly LTR (+1 (646) 555-4099) even in RTL layouts
-                    Directionality(
-                      textDirection: TextDirection.ltr,
-                      child: Text(
-                        phoneNumber,
-                        style: TextStyle(
-                          color: isDarkBackground ? Colors.white : const Color(0xFF0F254E),
-                          fontSize: 17, // Adjusted slightly to fit with welcome message
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 0.5,
-                        ),
+                    Text(
+                      username,
+                      style: TextStyle(
+                        color: isDarkBackground ? Colors.white.withAlpha(204) : const Color(0xFF4B5563),
+                        fontSize: 13.5,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -105,72 +102,25 @@ class ProfileHeader extends StatelessWidget {
                         child: Icon(
                           Icons.copy_rounded,
                           color: isDarkBackground ? Colors.white70 : const Color(0xFF6B7280),
-                          size: 13,
+                          size: 12,
                         ),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: 4),
                 
-                // Subscription active status & Premium loyalty points pill
-                Row(
-                  children: [
-                    Text(
-                      'نشط حتى $activeUntil',
-                      style: TextStyle(
-                        color: isDarkBackground ? Colors.white.withAlpha(204) : const Color(0xFF6B7280),
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                      ),
+                // 3. Phone Number (replaces points/active status)
+                Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: Text(
+                    phoneNumber,
+                    style: TextStyle(
+                      color: isDarkBackground ? Colors.white.withAlpha(153) : const Color(0xFF6B7280),
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
                     ),
-                    const SizedBox(width: 8),
-                    Container(
-                      width: 4,
-                      height: 4,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: isDarkBackground ? Colors.white.withAlpha(102) : const Color(0xFFD1D5DB),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    
-                    // Golden Loyalty Points Pill
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: isDarkBackground 
-                            ? Colors.amber.withAlpha(46) 
-                            : const Color(0xFFFEF3C7), // Golden soft amber background for light theme
-                        borderRadius: BorderRadius.circular(100),
-                        border: Border.all(
-                          color: isDarkBackground 
-                              ? Colors.amberAccent.withAlpha(76)
-                              : const Color(0xFFFCD34D),
-                          width: 1,
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.stars_rounded,
-                            color: isDarkBackground ? Colors.amberAccent : const Color(0xFFD97706),
-                            size: 10,
-                          ),
-                          const SizedBox(width: 3),
-                          Text(
-                            '$points نقطة',
-                            style: TextStyle(
-                              color: isDarkBackground ? Colors.amberAccent : const Color(0xFFD97706),
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ],
             ),

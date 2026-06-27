@@ -65,9 +65,8 @@ class _DashboardPageState extends State<DashboardPage> {
             
             // Profile Header Widget (Now rendered on the clean white page background)
             const ProfileHeader(
+              username: '883999333',
               phoneNumber: '+1 (646) 555-4099',
-              activeUntil: '30 مايو 2025', // Translated active until date to Arabic
-              points: '1,000',
               avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200',
               isDarkBackground: false, // Switch to dark text/icons for light background compatibility
             ),
