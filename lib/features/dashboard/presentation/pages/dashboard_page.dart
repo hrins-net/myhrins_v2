@@ -69,7 +69,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   top: 0,
                   left: 0,
                   right: 0,
-                  height: 525 + MediaQuery.of(context).padding.top, // Extended to cover UnifiedDashboardCard
+                  height: 445 + MediaQuery.of(context).padding.top, // Adjusted for the shortened UnifiedDashboardCard
                   child: Container(
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
@@ -135,11 +135,10 @@ class _DashboardPageState extends State<DashboardPage> {
                     
                     const SizedBox(height: 12), // Spacing between header and card
                     
-                    // Unified Dashboard Card containing Credit, Quota, and Quick Actions
+                    // Unified Dashboard Card containing Quota and Quick Actions (اشحن, شراء باقات, إرسال هدية, اختبار السرعة)
                     UnifiedDashboardCard(
                       usedGB: 22.6,
                       totalGB: 40.0,
-                      amount: '250\$',
                       onTopUpPressed: () {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
@@ -170,9 +169,6 @@ class _DashboardPageState extends State<DashboardPage> {
                             actionName = 'إرسال هدية';
                             break;
                           case 2:
-                            actionName = 'استرداد قسيمة';
-                            break;
-                          case 3:
                             actionName = 'اختبار السرعة';
                             break;
                         }

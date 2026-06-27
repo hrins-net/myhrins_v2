@@ -4,7 +4,6 @@ import '../../../../core/constants/app_colors.dart';
 class UnifiedDashboardCard extends StatelessWidget {
   final double usedGB;
   final double totalGB;
-  final String amount;
   final VoidCallback onTopUpPressed;
   final VoidCallback onQuotaPressed;
   final Function(int) onActionPressed;
@@ -13,7 +12,6 @@ class UnifiedDashboardCard extends StatelessWidget {
     super.key,
     required this.usedGB,
     required this.totalGB,
-    required this.amount,
     required this.onTopUpPressed,
     required this.onQuotaPressed,
     required this.onActionPressed,
@@ -43,103 +41,7 @@ class UnifiedDashboardCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // ================= SECTION 1: BALANCE & WALLET =================
-            Row(
-              children: [
-                // Top-Up button (Left side in RTL)
-                GestureDetector(
-                  onTap: onTopUpPressed,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [
-                          AppColors.secondary, // Brand Orange (0xFFF48231)
-                          Color(0xFFFF9800),    // Vibrant Amber/Orange
-                        ],
-                      ),
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.secondary.withAlpha(51),
-                          blurRadius: 6,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.add_rounded,
-                          color: Colors.white,
-                          size: 16,
-                        ),
-                        SizedBox(width: 4),
-                        Text(
-                          'شحن',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                
-                const Spacer(),
-                
-                // Balance Text and label (Middle in RTL)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      amount,
-                      style: const TextStyle(
-                        color: AppColors.primary,
-                        fontSize: 22,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: -0.5,
-                      ),
-                    ),
-                    const Text(
-                      'الرصيد',
-                      style: TextStyle(
-                        color: Color(0xFF9CA3AF),
-                        fontSize: 11,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(width: 12),
-                
-                // Wallet Icon container (Right side in RTL)
-                Container(
-                  width: 42,
-                  height: 42,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: const Color(0xFFF9FAFB),
-                    border: Border.all(
-                      color: const Color(0xFFE5E7EB),
-                      width: 1.2,
-                    ),
-                  ),
-                  child: const Icon(
-                    Icons.account_balance_wallet_outlined,
-                    color: AppColors.primary,
-                    size: 20,
-                  ),
-                ),
-              ],
-            ),
-            
-            _buildSectionDivider(),
-            
-            // ================= SECTION 2: SUBSCRIPTION QUOTA =================
+            // ================= SECTION 1: SUBSCRIPTION QUOTA (Now at the very top) =================
             InkWell(
               onTap: onQuotaPressed,
               borderRadius: BorderRadius.circular(12),
@@ -280,37 +182,42 @@ class UnifiedDashboardCard extends StatelessWidget {
             
             _buildSectionDivider(),
             
-            // ================= SECTION 3: QUICK ACTION BUTTONS =================
+            // ================= SECTION 2: QUICK ACTION BUTTONS =================
+            // Ordered from right to left in RTL: اشحن, شراء باقات, إرسال هدية, اختبار السرعة
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                // 1. Top Up Action (اشحن) - First button on the right in RTL
+                _buildActionButton(
+                  icon: Icons.add_rounded,
+                  iconColor: const Color(0xFFF97316), // Brand Orange
+                  bgColor: const Color(0xFFFFF7ED),   // Soft Light Orange
+                  label: 'اشحن',
+                  onTap: onTopUpPressed,
+                ),
+                // 2. Buy Packages (شراء باقات)
                 _buildActionButton(
                   icon: Icons.shopping_bag_outlined,
-                  iconColor: const Color(0xFF3B82F6),
-                  bgColor: const Color(0xFFEFF6FF),
+                  iconColor: const Color(0xFF3B82F6), // Blue
+                  bgColor: const Color(0xFFEFF6FF),   // Soft Light Blue
                   label: 'شراء باقات',
                   onTap: () => onActionPressed(0),
                 ),
+                // 3. Send Gift (إرسال هدية)
                 _buildActionButton(
                   icon: Icons.card_giftcard_rounded,
-                  iconColor: const Color(0xFFF97316),
-                  bgColor: const Color(0xFFFFF7ED),
+                  iconColor: const Color(0xFFEC4899), // Pink/Rose
+                  bgColor: const Color(0xFFFCE7F3),   // Soft Light Pink
                   label: 'إرسال هدية',
                   onTap: () => onActionPressed(1),
                 ),
-                _buildActionButton(
-                  icon: Icons.local_activity_outlined,
-                  iconColor: const Color(0xFF8B5CF6),
-                  bgColor: const Color(0xFFF5F3FF),
-                  label: 'استرداد قسيمة',
-                  onTap: () => onActionPressed(2),
-                ),
+                // 4. Speed Test (اختبار السرعة) - Last button on the left in RTL
                 _buildActionButton(
                   icon: Icons.speed_rounded,
-                  iconColor: const Color(0xFF10B981),
-                  bgColor: const Color(0xFFECFDF5),
+                  iconColor: const Color(0xFF10B981), // Green
+                  bgColor: const Color(0xFFECFDF5),   // Soft Light Green
                   label: 'اختبار السرعة',
-                  onTap: () => onActionPressed(3),
+                  onTap: () => onActionPressed(2),
                 ),
               ],
             ),
