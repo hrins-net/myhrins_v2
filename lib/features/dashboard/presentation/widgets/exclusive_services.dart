@@ -83,6 +83,8 @@ class ExclusiveServices extends StatelessWidget {
                     title: 'ترقية سرعة الفايبر',
                     subtitle: 'ضاعف سرعة اتصالك بخصم 30% لفترة محدودة',
                     icon: HugeIcons.strokeRoundedFlash,
+                    iconColor: const Color(0xFFF59E0B), // Vibrant Gold
+                    bgColor: const Color(0xFFFFFBEB),   // Light Gold
                     onTap: () => _showServiceAlert(context, 'ترقية سرعة الفايبر'),
                   ),
                   _buildDivider(),
@@ -91,6 +93,8 @@ class ExclusiveServices extends StatelessWidget {
                     title: 'الرقابة الأبوية الذكية',
                     subtitle: 'حماية أطفالك وإدارة أوقات استخدام الإنترنت بسهولة',
                     icon: HugeIcons.strokeRoundedShield01,
+                    iconColor: const Color(0xFF10B981), // Vibrant Green
+                    bgColor: const Color(0xFFECFDF5),   // Light Green
                     onTap: () => _showServiceAlert(context, 'الرقابة الأبوية الذكية'),
                   ),
                   _buildDivider(),
@@ -99,6 +103,8 @@ class ExclusiveServices extends StatelessWidget {
                     title: 'الدعم الفني VIP',
                     subtitle: 'مساعدة ذات أولوية فورية من الخبراء على مدار الساعة',
                     icon: HugeIcons.strokeRoundedCustomerService,
+                    iconColor: const Color(0xFF3B82F6), // Vibrant Blue
+                    bgColor: const Color(0xFFEFF6FF),   // Light Blue
                     onTap: () => _showServiceAlert(context, 'الدعم الفني VIP'),
                   ),
                   _buildDivider(),
@@ -107,6 +113,8 @@ class ExclusiveServices extends StatelessWidget {
                     title: 'تفعيل قنوات Shahid VIP',
                     subtitle: 'احصل على اشتراك ترفيهي مجاني مع باقتك الحالية',
                     icon: HugeIcons.strokeRoundedTvSmart,
+                    iconColor: const Color(0xFF8B5CF6), // Vibrant Purple
+                    bgColor: const Color(0xFFF5F3FF),   // Light Purple
                     onTap: () => _showServiceAlert(context, 'تفعيل قنوات Shahid VIP'),
                   ),
                   _buildDivider(),
@@ -115,6 +123,8 @@ class ExclusiveServices extends StatelessWidget {
                     title: 'شريحة eSIM إضافية',
                     subtitle: 'تفعيل شريحة بيانات ثانية للأجهزة اللوحية والمحمولة',
                     icon: HugeIcons.strokeRoundedSimcard01,
+                    iconColor: const Color(0xFFEC4899), // Vibrant Pink/Rose
+                    bgColor: const Color(0xFFFCE7F3),   // Light Pink/Rose
                     onTap: () => _showServiceAlert(context, 'شريحة eSIM إضافية'),
                   ),
                 ],
@@ -131,6 +141,8 @@ class ExclusiveServices extends StatelessWidget {
     required String title,
     required String subtitle,
     required List<List<dynamic>> icon,
+    required Color iconColor,
+    required Color bgColor,
     required VoidCallback onTap,
   }) {
     final isRtl = Directionality.of(context) == TextDirection.rtl;
@@ -142,22 +154,22 @@ class ExclusiveServices extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
         child: Row(
           children: [
-            // Circular Icon Wrapper (Renders on the right in RTL)
+            // Circular Icon Wrapper with custom theme (Renders on the right in RTL)
             Container(
               width: 38,
               height: 38,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: const Color(0xFFF9FAFB),
+                color: bgColor,
                 border: Border.all(
-                  color: const Color(0xFFE5E7EB),
+                  color: iconColor.withAlpha(38),
                   width: 1.2,
                 ),
               ),
               child: Center(
                 child: HugeIcon(
                   icon: icon,
-                  color: AppColors.primary,
+                  color: iconColor,
                   size: 18,
                   strokeWidth: 1.6,
                 ),

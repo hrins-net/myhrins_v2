@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../../core/constants/app_colors.dart';
 
 class QuickActionsCard extends StatelessWidget {
   const QuickActionsCard({super.key});
@@ -13,7 +12,7 @@ class QuickActionsCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha(10),
+            color: Colors.black.withAlpha(8),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -26,7 +25,9 @@ class QuickActionsCard extends StatelessWidget {
           children: [
             _buildActionItem(
               context: context,
-              icon: Icons.shopping_cart_outlined,
+              icon: Icons.shopping_bag_outlined,
+              iconColor: const Color(0xFF3B82F6), // Vibrant Blue
+              bgColor: const Color(0xFFEFF6FF),   // Soft Light Blue
               label: 'شراء باقات',
               onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -36,7 +37,9 @@ class QuickActionsCard extends StatelessWidget {
             ),
             _buildActionItem(
               context: context,
-              icon: Icons.send_rounded,
+              icon: Icons.card_giftcard_rounded,
+              iconColor: const Color(0xFFF97316), // Vibrant Orange
+              bgColor: const Color(0xFFFFF7ED),   // Soft Light Orange
               label: 'إرسال هدية',
               onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -46,7 +49,9 @@ class QuickActionsCard extends StatelessWidget {
             ),
             _buildActionItem(
               context: context,
-              icon: Icons.confirmation_number_outlined,
+              icon: Icons.local_activity_outlined,
+              iconColor: const Color(0xFF8B5CF6), // Vibrant Purple
+              bgColor: const Color(0xFFF5F3FF),   // Soft Light Purple
               label: 'استرداد قسيمة',
               onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -57,6 +62,8 @@ class QuickActionsCard extends StatelessWidget {
             _buildActionItem(
               context: context,
               icon: Icons.speed_rounded,
+              iconColor: const Color(0xFF10B981), // Vibrant Green
+              bgColor: const Color(0xFFECFDF5),   // Soft Light Green
               label: 'اختبار السرعة',
               onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -73,31 +80,34 @@ class QuickActionsCard extends StatelessWidget {
   Widget _buildActionItem({
     required BuildContext context,
     required IconData icon,
+    required Color iconColor,
+    required Color bgColor,
     required String label,
     required VoidCallback onTap,
   }) {
     return Expanded(
       child: GestureDetector(
         onTap: onTap,
+        behavior: HitTestBehavior.opaque,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Circular Icon wrapper
+            // Circular Icon wrapper with custom soft colored theme
             Container(
               width: 50,
               height: 50,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: const Color(0xFFF9FAFB),
+                color: bgColor,
                 border: Border.all(
-                  color: const Color(0xFFE5E7EB),
+                  color: iconColor.withAlpha(38),
                   width: 1.5,
                 ),
               ),
               child: Icon(
                 icon,
-                color: AppColors.primary,
+                color: iconColor,
                 size: 22,
               ),
             ),
