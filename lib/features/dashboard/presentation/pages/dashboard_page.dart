@@ -58,135 +58,142 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF3F4F6), // Light grey background
-      body: Stack(
-        children: [
-          // Blue Curved Header Background (Covering both main cards as in UI/UX mockup)
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            height: 405, // Adjusted to cover the newly expanded QuotaCard completely
-            child: Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0xFF1E325C), // Lighter Navy
-                    AppColors.primary,  // Primary Navy Dark Blue (0xFF0F254E)
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Unified Stack containing the blue background and top cards so they scroll together naturally!
+            Stack(
+              children: [
+                // Blue Curved Header Background
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: 405 + MediaQuery.of(context).padding.top, // Dynamic height matching notch depth
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Color(0xFF1E325C), // Lighter Navy
+                          AppColors.primary,  // Primary Navy Dark Blue (0xFF0F254E)
+                        ],
+                      ),
+                    ),
+                    child: Stack(
+                      children: [
+                        // Decorative circular wave shapes to emulate circular pattern in background
+                        Positioned(
+                          top: -100,
+                          right: -100,
+                          child: Container(
+                            width: 300,
+                            height: 300,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white.withAlpha(7),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: -50,
+                          left: -50,
+                          child: Container(
+                            width: 250,
+                            height: 250,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white.withAlpha(5),
+                            ),
+                          ),
+                        ),
+                        // Vector curved lines overlay (softened)
+                        CustomPaint(
+                          size: Size.infinite,
+                          painter: HeaderCurvesPainter(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                
+                // Top Cards sitting on the blue background
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // Dynamic notch/status bar spacing + clean margin
+                    SizedBox(height: MediaQuery.of(context).padding.top + 6),
+                    
+                    // Profile Header Widget
+                    const ProfileHeader(
+                      phoneNumber: '+1 (646) 555-4099',
+                      activeUntil: '30 مايو 2025', // Translated active until date to Arabic
+                      points: '1,000',
+                      avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200',
+                    ),
+                    
+                    const SizedBox(height: 12), // Spacing between header and CreditCard
+                    
+                    // Credit & Top-Up Card Widget
+                    CreditCard(
+                      amount: '250\$',
+                      onTopUpPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'تم الضغط على شحن الرصيد',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    
+                    const SizedBox(height: 4), // Spacing between CreditCard and QuotaCard
+                    
+                    // Internet Quota Card Widget
+                    QuotaCard(
+                      usedGB: 22.6,
+                      totalGB: 40.0,
+                      onTap: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'تم الضغط على تفاصيل سعة الإنترنت',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    
+                    const SizedBox(height: 16), // Bottom buffer spacing to clear the background
                   ],
                 ),
-              ),
-              child: Stack(
-                children: [
-                  // Decorative circular wave shapes to emulate circular pattern in background
-                  Positioned(
-                    top: -100,
-                    right: -100,
-                    child: Container(
-                      width: 300,
-                      height: 300,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white.withAlpha(7),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: -50,
-                    left: -50,
-                    child: Container(
-                      width: 250,
-                      height: 250,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white.withAlpha(5),
-                      ),
-                    ),
-                  ),
-                  // Vector curved lines overlay (softened)
-                  CustomPaint(
-                    size: Size.infinite,
-                    painter: HeaderCurvesPainter(),
-                  ),
-                ],
-              ),
+              ],
             ),
-          ),
-          
-          // Main Scrollable Content
-          SafeArea(
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const SizedBox(height: 6), // Reduced top spacing
-                  
-                  // Profile Header Widget
-                  const ProfileHeader(
-                    phoneNumber: '+1 (646) 555-4099',
-                    activeUntil: '30 مايو 2025', // Translated active until date to Arabic
-                    points: '1,000',
-                    avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200',
-                  ),
-                  
-                  const SizedBox(height: 12), // Reduced spacing from 24 to 12
-                  
-                  // Credit & Top-Up Card Widget
-                  CreditCard(
-                    amount: '250\$', // Mirrored currency placement or kept standard
-                    onTopUpPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                            'تم الضغط على شحن الرصيد',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  
-                  const SizedBox(height: 4), // Reduced spacing from 8 to 4
-                  
-                  // Internet Quota Card Widget
-                  QuotaCard(
-                    usedGB: 22.6,
-                    totalGB: 40.0,
-                    onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                            'تم الضغط على تفاصيل سعة الإنترنت',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  
-                  const SizedBox(height: 4), // Small spacing before QuickActionsCard
-                  
-                  // Quick Actions Menu Card
-                  const QuickActionsCard(),
-                  
-                  const SizedBox(height: 4), // Small spacing between QuickActions and PromoCarousel
-                  
-                  // Image Slider / Carousel with 3 rotating images
-                  const PromoCarousel(),
-                  
-                  const SizedBox(height: 8), // Spacing between PromoCarousel and ExclusiveServices
-                  
-                  // Exclusive Services ("حصري لك") Section
-                  const ExclusiveServices(),
-                  
-                  const SizedBox(height: 75),
-                ],
-              ),
-            ),
-          ),
-        ],
+            
+            const SizedBox(height: 4), // Small spacing before QuickActionsCard
+            
+            // Quick Actions Menu Card
+            const QuickActionsCard(),
+            
+            const SizedBox(height: 4), // Small spacing between QuickActions and PromoCarousel
+            
+            // Image Slider / Carousel with 3 rotating images
+            const PromoCarousel(),
+            
+            const SizedBox(height: 8), // Spacing between PromoCarousel and ExclusiveServices
+            
+            // Exclusive Services ("حصري لك") Section
+            const ExclusiveServices(),
+            
+            const SizedBox(height: 75),
+          ],
+        ),
       ),
       bottomNavigationBar: CustomBottomNav(
         selectedIndex: _selectedIndex,
