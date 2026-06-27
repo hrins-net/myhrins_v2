@@ -68,6 +68,15 @@ class ProfileHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
+                Text(
+                  'أهلاً بك، أحمد 👋',
+                  style: TextStyle(
+                    color: isDarkBackground ? Colors.white.withAlpha(204) : const Color(0xFF6B7280),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 3),
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -78,7 +87,7 @@ class ProfileHeader extends StatelessWidget {
                         phoneNumber,
                         style: TextStyle(
                           color: isDarkBackground ? Colors.white : const Color(0xFF0F254E),
-                          fontSize: 18,
+                          fontSize: 17, // Adjusted slightly to fit with welcome message
                           fontWeight: FontWeight.bold,
                           letterSpacing: 0.5,
                         ),

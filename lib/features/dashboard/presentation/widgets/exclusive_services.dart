@@ -40,7 +40,7 @@ class ExclusiveServices extends StatelessWidget {
                 ],
               ),
               
-              // Show More text button (Renders on the left in RTL)
+              // Show More text button (Renders on the left in RTL, styled as a premium iOS-style pill)
               GestureDetector(
                 onTap: () {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -52,28 +52,25 @@ class ExclusiveServices extends StatelessWidget {
                     ),
                   );
                 },
-                child: const Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'عرض المزيد',
-                      style: TextStyle(
-                        color: AppColors.secondary,
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
-                      ),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFEFF6FF), // Soft blue background
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  child: const Text(
+                    'عرض المزيد',
+                    style: TextStyle(
+                      color: Color(0xFF3B82F6), // Vibrant blue text
+                      fontSize: 11.5,
+                      fontWeight: FontWeight.bold,
                     ),
-                    Icon(
-                      Icons.chevron_left_rounded, // Points to the left indicating drilling down
-                      color: AppColors.secondary,
-                      size: 18,
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 10),
           
           // White Container Card containing the 5 items
           Container(
@@ -167,9 +164,9 @@ class ExclusiveServices extends StatelessWidget {
 
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(12), // Upgraded to match card layout
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 6), // Slightly more spacious
         child: Row(
           children: [
             // Circular Icon Wrapper with custom theme (Renders on the right in RTL)

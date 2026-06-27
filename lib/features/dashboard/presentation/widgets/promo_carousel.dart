@@ -51,17 +51,17 @@ class _PromoCarouselState extends State<PromoCarousel> {
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       height: 165,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(24), // Upgraded corner radius
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha(8),
-            blurRadius: 8,
-            offset: const Offset(0, 3),
+            color: Colors.black.withAlpha(6), // Softer premium shadow
+            blurRadius: 16,
+            offset: const Offset(0, 8),
           ),
         ],
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(24), // Upgraded corner radius
         child: Stack(
           children: [
             // PageView for image slider
