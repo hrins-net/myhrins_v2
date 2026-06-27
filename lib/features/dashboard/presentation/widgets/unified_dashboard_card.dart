@@ -2,16 +2,28 @@ import 'package:flutter/material.dart';
 import '../../../../core/constants/app_colors.dart';
 
 class UnifiedDashboardCard extends StatelessWidget {
-  final double usedGB;
-  final double totalGB;
+  final String subscriptionName;
+  final String subscriptionSpeed;
+  final String expiryDate;
+  final bool isActive;
+  final String downloadSpeed;
+  final String uploadSpeed;
+  final String remainingTime;
+  final double progressValue; // e.g. 0.3 means 30% of the subscription time remaining
   final VoidCallback onTopUpPressed;
   final VoidCallback onQuotaPressed;
   final Function(int) onActionPressed;
 
   const UnifiedDashboardCard({
     super.key,
-    required this.usedGB,
-    required this.totalGB,
+    this.subscriptionName = 'فايبر بلس',
+    this.subscriptionSpeed = '100 Mbps',
+    this.expiryDate = '30 مايو 2025',
+    this.isActive = true,
+    this.downloadSpeed = '90 Mbps',
+    this.uploadSpeed = '92 Mbps',
+    this.remainingTime = '8 يوم و 22 ساعة متبقية',
+    this.progressValue = 0.3,
     required this.onTopUpPressed,
     required this.onQuotaPressed,
     required this.onActionPressed,
@@ -19,8 +31,6 @@ class UnifiedDashboardCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double percentage = (usedGB / totalGB).clamp(0.0, 1.0);
-    final isRtl = Directionality.of(context) == TextDirection.rtl;
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
@@ -75,7 +85,7 @@ class UnifiedDashboardCard extends StatelessWidget {
                       // Quota Header
                       Row(
                         children: [
-                          // 1. Globe Icon (Renders on the right in RTL as the starting icon)
+                          // 1. Wifi/Speed Icon (Renders on the right in RTL as the starting icon)
                           Container(
                             width: 44,
                             height: 44,
@@ -88,44 +98,30 @@ class UnifiedDashboardCard extends StatelessWidget {
                               ),
                             ),
                             child: const Icon(
-                              Icons.language_rounded,
-                              color: Colors.white, // White icon on dark background
+                              Icons.wifi_rounded,
+                              color: Colors.white,
                               size: 20,
                             ),
                           ),
                           const SizedBox(width: 12),
                           
-                          // 2. Quota details (Renders in the middle, RTL aligned)
+                          // 2. Subscription Details (Renders in the middle, RTL aligned)
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.baseline,
-                                  textBaseline: TextBaseline.alphabetic,
-                                  children: [
-                                    Text(
-                                      '${usedGB.toStringAsFixed(1)} جيجابايت',
-                                      style: const TextStyle(
-                                        color: Colors.white, // White text on dark card
-                                        fontSize: 19,
-                                        fontWeight: FontWeight.w800,
-                                        letterSpacing: -0.5,
-                                      ),
-                                    ),
-                                    Text(
-                                      ' / ${totalGB.toInt()} جيجابايت',
-                                      style: TextStyle(
-                                        color: Colors.white.withAlpha(153),
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
+                                Text(
+                                  subscriptionName,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18.5,
+                                    fontWeight: FontWeight.w800,
+                                    letterSpacing: -0.2,
+                                  ),
                                 ),
                                 const SizedBox(height: 2),
                                 Text(
-                                  'سعة الإنترنت',
+                                  'السرعة: $subscriptionSpeed',
                                   style: TextStyle(
                                     color: Colors.white.withAlpha(178),
                                     fontSize: 11.5,
@@ -137,16 +133,46 @@ class UnifiedDashboardCard extends StatelessWidget {
                           ),
                           const SizedBox(width: 8),
                           
-                          // 3. Arrow (Renders on the left in RTL as the trailing indicator)
-                          Icon(
-                            isRtl ? Icons.chevron_left_rounded : Icons.chevron_right_rounded,
-                            color: Colors.white70,
-                            size: 22,
+                          // 3. Active Status Badge (Renders on the left in RTL)
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                            decoration: BoxDecoration(
+                              color: isActive 
+                                  ? const Color(0xFF22C55E).withAlpha(38) // Translucent green
+                                  : Colors.red.withAlpha(38),
+                              borderRadius: BorderRadius.circular(100),
+                              border: Border.all(
+                                color: isActive ? const Color(0xFF4ADE80) : Colors.redAccent,
+                                width: 1.0,
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  width: 6,
+                                  height: 6,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: isActive ? const Color(0xFF22C55E) : Colors.red,
+                                  ),
+                                ),
+                                const SizedBox(width: 6),
+                                Text(
+                                  isActive ? 'نشط' : 'ملغي',
+                                  style: TextStyle(
+                                    color: isActive ? const Color(0xFF4ADE80) : Colors.redAccent,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
                       
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 18),
                       
                       // Premium Custom Gradient Progress Bar (Orange/Gold on Navy)
                       LayoutBuilder(
@@ -166,7 +192,7 @@ class UnifiedDashboardCard extends StatelessWidget {
                               // Gradient Progress bar
                               Container(
                                 height: 8,
-                                width: maxWidth * percentage,
+                                width: maxWidth * progressValue,
                                 decoration: BoxDecoration(
                                   gradient: const LinearGradient(
                                     colors: [
@@ -189,43 +215,65 @@ class UnifiedDashboardCard extends StatelessWidget {
                         },
                       ),
                       
+                      const SizedBox(height: 8),
+                      
+                      // Remaining Time Label (e.g. 8 يوم و 22 ساعه متبقيه)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            remainingTime,
+                            style: const TextStyle(
+                              color: Color(0xFFFBBF24), // Vibrant Amber gold text for contrast
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            '${(progressValue * 100).toInt()}% متبقي',
+                            style: TextStyle(
+                              color: Colors.white.withAlpha(178),
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      
                       const SizedBox(height: 16),
                       
-                      // Stats details (الرفع, التحميل, حالة الاشتراك)
+                      // Stats details (الرفع, التحميل, تاريخ الانتهاء)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          // Upload speed
+                          // Expiry Date (تاريخ الانتهاء)
                           _buildStatColumn(
-                            label: 'الرفع',
-                            value: '92Mb',
+                            label: 'تاريخ الانتهاء',
+                            value: expiryDate,
                             icon: const Icon(
-                              Icons.arrow_upward_rounded,
-                              color: Color(0xFFF97316),
-                              size: 15,
+                              Icons.calendar_month_outlined,
+                              color: Colors.white70,
+                              size: 14,
                             ),
                           ),
-                          // Download speed
+                          // Download speed (التحميل)
                           _buildStatColumn(
                             label: 'التحميل',
-                            value: '90Mb',
+                            value: downloadSpeed,
                             icon: const Icon(
                               Icons.arrow_downward_rounded,
                               color: Color(0xFFF97316),
-                              size: 15,
+                              size: 14,
                             ),
                           ),
-                          // Subscription Status
+                          // Upload speed (الرفع)
                           _buildStatColumn(
-                            label: 'حالة الاشتراك',
-                            value: 'نشط',
-                            indicator: Container(
-                              width: 7,
-                              height: 7,
-                              decoration: const BoxDecoration(
-                                color: Color(0xFF22C55E),
-                                shape: BoxShape.circle,
-                              ),
+                            label: 'الرفع',
+                            value: uploadSpeed,
+                            icon: const Icon(
+                              Icons.arrow_upward_rounded,
+                              color: Color(0xFFF97316),
+                              size: 14,
                             ),
                           ),
                         ],
@@ -297,7 +345,6 @@ class UnifiedDashboardCard extends StatelessWidget {
     required String label,
     required String value,
     Widget? icon,
-    Widget? indicator,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -315,18 +362,18 @@ class UnifiedDashboardCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            if (icon != null) ...[
+              icon,
+              const SizedBox(width: 4),
+            ],
             Text(
               value,
               style: const TextStyle(
                 color: Colors.white,
-                fontSize: 14.5,
+                fontSize: 13.5,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            if (icon != null || indicator != null) ...[
-              const SizedBox(width: 4),
-              icon ?? indicator!,
-            ],
           ],
         ),
       ],

@@ -74,8 +74,11 @@ class _DashboardPageState extends State<DashboardPage> {
             
             // Unified Dashboard Card containing Quota and Quick Actions (Now an elegant indigo credit-card floating on white)
             UnifiedDashboardCard(
-              usedGB: 22.6,
-              totalGB: 40.0,
+              subscriptionName: 'فايبر بلس',
+              subscriptionSpeed: '100 Mbps',
+              expiryDate: '30 مايو 2025',
+              remainingTime: '8 يوم و 22 ساعة متبقية',
+              progressValue: 0.3,
               onTopUpPressed: () {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
