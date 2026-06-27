@@ -3,14 +3,12 @@ import 'package:flutter/services.dart';
 
 class ProfileHeader extends StatelessWidget {
   final String username;
-  final String phoneNumber;
   final String avatarUrl;
   final bool isDarkBackground; // Support dark/light background states
 
   const ProfileHeader({
     super.key,
     required this.username,
-    required this.phoneNumber,
     required this.avatarUrl,
     this.isDarkBackground = true, // Defaults to dark theme to preserve backward compatibility
   });
@@ -107,20 +105,6 @@ class ProfileHeader extends StatelessWidget {
                       ),
                     ),
                   ],
-                ),
-                const SizedBox(height: 4),
-                
-                // 3. Phone Number (replaces points/active status)
-                Directionality(
-                  textDirection: TextDirection.ltr,
-                  child: Text(
-                    phoneNumber,
-                    style: TextStyle(
-                      color: isDarkBackground ? Colors.white.withAlpha(153) : const Color(0xFF6B7280),
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
                 ),
               ],
             ),

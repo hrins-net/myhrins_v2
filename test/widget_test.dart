@@ -15,7 +15,7 @@ void main() {
 
     // Verify that our dashboard is shown.
     expect(find.byType(DashboardPage), findsOneWidget);
-    expect(find.text('+1 (646) 555-4099'), findsOneWidget);
+    expect(find.text('883999333'), findsOneWidget);
   });
 }
 
